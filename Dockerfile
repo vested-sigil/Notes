@@ -17,7 +17,7 @@ EXPOSE 5000
 
 # Set environment variables
 ENV TOKEN="secret_wI9CKXWopeJQf8yTqDSLDU9EU8scbHwEw168a64zCSe"
-ENV ROOT_UUID="803e81098952428bb8fd30cf5c0fbd99"
+ENV rootuuid="803e81098952428bb8fd30cf5c0fbd99"
 
 # Define the command to run your application
 CMD ["python", "app.py"]
