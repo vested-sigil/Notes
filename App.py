@@ -10,7 +10,15 @@ CORS(app)
 api = Api(app)
 
 # Initialize Notion client
-client = Client(auth=os.getenv('TOKEN'))
+token = os.getenv('TOKEN')
+root_uuid = os.getenv('ROOT_UUID')
+
+if not token:
+    token = input("Enter Notion integration token: ")
+if not root_uuid:
+    root_uuid = input("Enter root UUID: ")
+
+client = Client(auth=token)
 
 class RetrieveBlock(Resource):
     def get(self, block_id):
@@ -48,8 +56,7 @@ class UpdatePageProperties(Resource):
 
 class HomePage(Resource):
     def get(self):
-        page_id = os.getenv("rootuuid")
-        return client.pages.retrieve(page_id)
+        return client.pages.retrieve(root_uuid)
 
 class Help(Resource):
     def get(self):
