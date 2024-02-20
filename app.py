@@ -28,7 +28,7 @@ app = Flask(__name__)
 def login():
     # Extract the accountkey from the request data
     data = request.get_json()
-    accountkey = data.get('accountkey')
+    accountkey = os.getenv('ACCOUNT_KEY')
 
     # Execute the b4a configure accountkey command with the provided accountkey
     result = subprocess.run(["b4a", "configure", "accountkey", accountkey], capture_output=True, text=True)
