@@ -30,11 +30,6 @@ USER appuser
 # Expose the port your app runs on
 EXPOSE   6969
 
-# Define environment variables
-ENV TOKEN="secret_wI9CKXWopeJQf8yTqDSLDU9EU8scbHwEw168a64zCSe"
-ENV ROOT_UUID="803e81098952428bb8fd30cf5c0fbd99"
-ENV ACCOUNT_KEY="tmK2z3J3D0QTMvSPR5kH6lkvzRKsTxmET0RsSZxa"
-ENV APP_ID="VjljzeX4SAvbflidjbQB8TTM7R221pvlyat6IkkE"
 
 # Define the command to run your application
 CMD ["python", "app.py"]
