@@ -21,7 +21,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Back4App CLI
-RUN curl -sL https://www.back4app.com/docs/platform/command-line-tool | bash
+RUN curl https://raw.githubusercontent.com/back4app/parse-cli/back4app/installer.sh | sudo /bin/bash
 
 # Create a non-root user and switch to it
 RUN useradd -ms /bin/bash appuser
