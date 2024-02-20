@@ -19,6 +19,26 @@ if not root_uuid:
     root_uuid = input("Enter root UUID: ")
 
 client = Client(auth=token)
+from flask import Flask, request, jsonify
+import subprocess
+
+app = Flask(__name__)
+
+@app.route('/login', methods=['POST'])
+def login():
+    # Extract the accountkey from the request data
+    data = request.get_json()
+    accountkey = data.get('accountkey')
+
+    # Execute the b4a configure accountkey command with the provided accountkey
+    result = subprocess.run(["b4a", "configure", "accountkey", accountkey], capture_output=True, text=True)
+
+    # Check the result
+    if result.returncode ==   0:
+        return jsonify({"status": "success", "message": "Command executed successfully."}),  200
+    else:
+        return jsonify({"status": "error", "message": "Command failed with exit code", "error": result.stderr}),  500
+
 
 class RetrieveBlock(Resource):
     def get(self, block_id):
