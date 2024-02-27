@@ -20,8 +20,6 @@ RUN apt-get update && \
     apt-get install -y nodejs npm && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Back4App CLI
-RUN curl https://raw.githubusercontent.com/back4app/parse-cli/back4app/installer.sh | /bin/bash
 
 # Create a non-root user and switch to it
 RUN useradd -ms /bin/bash appuser
