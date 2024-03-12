@@ -10,14 +10,12 @@ CORS(app)
 api = Api(app)
 
 # Initialize Notion client
-token = os.getenv('TOKEN')
-root_uuid = os.getenv('ROOT_UUID')
-
-if not token:
-    token = input("Enter Notion integration token: ")
-if not root_uuid:
-    root_uuid = input("Enter root UUID: ")
-
+def nodes(name,TK,ID,alias,ACT,APP)
+    os.environ(f{name.upper}+'TOKEN') = Tk 
+    os.environ('ROOT_'+f{name.upper}) = ID
+    os.environ(f{alias.upper}+'_KEY') = ACT
+    os.environ('APPID') = APP
+    
 client = Client(auth=token)
 from flask import Flask, request, jsonify
 import subprocess
