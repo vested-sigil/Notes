@@ -4,18 +4,22 @@ from notion_client import Client
 import os
 from flask_cors import CORS
 
+#client.integration tk
+TOKEN="secret_wI9CKXWopeJQf8yTqDSLDU9EU8scbHwEw168a64zCSe"
+#client.navpageid
+ROOT_UUID="803e81098952428bb8fd30cf5c0fbd99"
+#subprocess("b4a","configure","accountkey")
+ACCOUNT_KEY="tmK2z3J3D0QTMvSPR5kH6lkvzRKsTxmET0RsSZxa"
+#std.in(ACCOUNT_KEY)
+#std.in("b4a","new","E")
+APP_ID="VjljzeX4SAvbflidjbQB8TTM7R221pvlyat6IkkE"
 # Initialize Flask app and CORS
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
 # Initialize Notion client
-def nodes(name,TK,ID,alias,ACT,APP)
-    os.environ(f{name.upper}+'TOKEN') = Tk 
-    os.environ('ROOT_'+f{name.upper}) = ID
-    os.environ(f{alias.upper}+'_KEY') = ACT
-    os.environ('APPID') = APP
-    
+
 client = Client(auth=token)
 from flask import Flask, request, jsonify
 import subprocess
@@ -24,13 +28,10 @@ app = Flask(__name__)
 
 @app.route('/login', methods=['POST'])
 def login():
-    # Extract the accountkey from the request data
-    data = request.get_json()
+    subprocess.run("./installer.sh")
     accountkey = os.getenv('ACCOUNT_KEY')
-
     # Execute the b4a configure accountkey command with the provided accountkey
     result = subprocess.run(["b4a", "configure", "accountkey", accountkey], capture_output=True, text=True)
-
     # Check the result
     if result.returncode ==   0:
         return jsonify({"status": "success", "message": "Command executed successfully."}),  200
