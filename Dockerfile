@@ -10,8 +10,8 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 5000 available to the world outside this container
+# Expose the Flask default port 5000
 EXPOSE 5000
 
-# Define command to run the app using Gunicorn
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+# Run the Flask application directly
+CMD ["flask", "run", "--host=0.0.0.0"]
