@@ -1,7 +1,2 @@
-
-Werkzeug==2.3.3
-python-dotenv
-Flask==2.0.2
-Flask-RESTful==0.3.9
-notion-client==2.2.1
-Flask-Cors==3.0.10
+Flask==2.0.1
+gunicorn==20.1.0
