@@ -8,7 +8,7 @@ WORKDIR /app
 # Doing this separately allows Docker to cache the pip install layer
 # when there are no changes to the requirements.txt file, speeding up builds
 COPY requirements.txt /app/
-
+COPY installer.sh /app/
 # Install packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
