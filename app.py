@@ -120,5 +120,13 @@ def home():
     # For simplicity, returning the raw response or error message
     return jsonify(page_content)
 
+@app.route('/b4a/<command>')
+def parsecli(command):
+    try:
+        subprocess.run(['b4a', command], check=True)
+        return f"Command '{command}' executed successfully."
+    except subprocess.CalledProcessError as e:
+        return f"Error executing command '{command}': {e}"
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
