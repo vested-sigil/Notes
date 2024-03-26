@@ -1,10 +1,13 @@
-import configparser
 import os
 import subprocess
 import importlib
 from flask import Flask, jsonify
+from notion_client import Client  # Added for clearer import
 
 app = Flask(__name__)
+
+# Globally initialize the client variable. It will be set in the connect() function.
+client = None
 
 def check():
     try:
@@ -15,73 +18,21 @@ def check():
 
 def install():
     try:
-        subprocess.run(['./installer.sh'], check=True)
+        subprocess.run(['./Installer.sh'], check=True)
         return "Installer script executed successfully."
     except subprocess.CalledProcessError as e:
         return f"Error: {e}"
 
-class CfgMgr:
-    def __init__(self, config_file='config.ini'):
-        self.config_file = config_file
-        self.config = configparser.ConfigParser()
-
-    def initcon(self, TOKEN, ROOT_UUID, ACCOUNTKEY, APP_ID):
-        """
-        Initialize the configuration file with default values.
-        """
-        if os.path.exists(self.config_file):
-            return "Error: Config already initiated. Try keycon."
-        else:
-            self.config['DEFAULT'] = {'TOKEN': TOKEN,
-                                      'ROOT_UUID': ROOT_UUID,
-                                      'ACCOUNTKEY': ACCOUNTKEY,
-                                      'APP_ID': APP_ID}
-            with open(self.config_file, 'w') as configfile:
-                self.config.write(configfile)
-            return "Config file initiated successfully."
-
-def actkey():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    if 'KEYS' in config and 'ACCOUNTKEY' in config['KEYS']:
-        return config['KEYS']['ACCOUNTKEY']
-    else:
-        return "Error: ACCOUNTKEY not found in config.ini file or config.ini file doesn't exist."
-
-def get_root():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    if 'KEYS' in config and 'ROOT_UUID' in config['KEYS']:
-        return config['KEYS']['ROOT_UUID']
-    else:
-        return "Error: ROOT_UUID not found in config.ini file or config.ini file doesn't exist"
-
-def get_app():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    if 'KEYS' in config and 'APP_ID' in config['KEYS']:
-        return config['KEYS']['APP_ID']
-    else:
-        return "Error: APP_ID not found in config.ini file or config.ini file doesn't exist"
-
-def get_token():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    if 'KEYS' in config and 'TOKEN' in config['KEYS']:
-        return config['KEYS']['TOKEN']
-    else:
-        return "Error: TOKEN not found in config.ini file or config.ini file doesn't exist."
-
 def connect():
     try:
-        from notion_client import Client
-        token = get_token()
+        global client  # Use the global client variable
+        token = os.getenv('TOKEN')  # Corrected method to get environment variable
         client = Client(auth=token)
         subprocess.run(['b4a', 'configure', 'accountkey'])
 
-        key = actkey()
+        key = os.getenv('ACCOUNTKEY')  # Corrected method to get environment variable
         subprocess.run([key])
-        return get_app()
+        return os.getenv('APP_ID')  # Corrected method to get environment variable
     except Exception as e:
         return f"Error: {e}"
 
@@ -90,7 +41,8 @@ def get_notion_page() -> dict:
     Retrieve a specific Notion page using the ROOT_UUID.
     """
     try:
-        root = get_root()
+        root = os.getenv('ROOT_UUID')  # Corrected method to get environment variable
+        # Ensure that the client variable is correctly used here
         page = client.pages.retrieve(page_id=root)
         return page
     except Exception as e:
@@ -107,10 +59,6 @@ def install_route():
 @app.route('/connect')
 def connect_route():
     return connect()
-
-@app.route('/setup/<TOKEN>/<ROOT_UUID>/<ACCOUNTKEY>/<APP_ID>')
-def setup(TOKEN, ROOT_UUID, ACCOUNTKEY, APP_ID):
-    return CfgMgr().initcon(TOKEN, ROOT_UUID, ACCOUNTKEY, APP_ID)
 
 @app.route('/')
 def home():
