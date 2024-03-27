@@ -3,8 +3,20 @@ import subprocess
 import importlib
 from flask import Flask, jsonify
 from notion_client import Client  # Added for clearer import
+from flask import Flask, request
+from datetime import datetime
 
 app = Flask(__name__)
+
+pulse_log = {}
+
+@app.route('/log', methods=['POST'])
+def log_pulse():
+    bpm = request.json.get('pulse')
+    timestamp = datetime.now().isoformat()
+    bpm_log[timestamp] = bpm
+    return {'message': 'pulse logged successfully'}, 200
+
 
 # Globally initialize the client variable. It will be set in the connect() function.
 client = None
